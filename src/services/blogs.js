@@ -38,7 +38,7 @@ const updateLikes = async ({ id, likes }) => {
     likes: likes
   }
 
-  await axios.put(
+  return await axios.put(
     `${baseUrl}/${id}`,
     data
   )

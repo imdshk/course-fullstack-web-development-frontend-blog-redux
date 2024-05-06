@@ -17,7 +17,7 @@ import loginService from "./services/login"
 
 const App = () => {
   const dispatch = useDispatch()
-  // const [blogs, setBlogs] = useState([])
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
@@ -79,46 +79,6 @@ const App = () => {
     blogService.setToken(null)
   }
 
-  // const handleLikes = async (likeObject) => {
-  //   try {
-  //     await blogService.updateLikes(likeObject)
-  //     const blogToUpdate = blogs.find((blog) => blog.id === likeObject.id)
-  //     const updatedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
-  //     setBlogs(prevState =>
-  //       prevState.map(blog =>
-  //         blog.id !== updatedBlog.id ? blog : updatedBlog
-  //       )
-  //     )
-  //   } catch (error) {
-  //     dispatch(setNotification(
-  //       `Error ${error.response.status}: ${error.response.data.error}`,
-  //       "bad"
-  //     ))
-  //   }
-  // }
-
-  // const handleDeleteBlog = async (blogToDelete) => {
-  //   if (window.confirm(`Are you sure you want to delete ${blogToDelete.title} by ${blogToDelete.author}?`)){
-  //     try {
-  //       await blogService.deleteBlog({ id: blogToDelete.id })
-  //       setBlogs(prevState =>
-  //         prevState.filter(blog =>
-  //           blog.id !== blogToDelete.id
-  //         )
-  //       )
-  //       dispatch(setNotification(
-  //         `Blog '${blogToDelete.title}' by '${blogToDelete.author}' deleted`,
-  //         "good"
-  //       ))
-  //     } catch (error) {
-  //       dispatch(setNotification(
-  //         `Error ${error.response.status}: ${error.response.data.error}`,
-  //         "bad"
-  //       ))
-  //     }
-  //   }
-  // }
-
   return (
     <div>
       <Notification />
@@ -144,8 +104,6 @@ const App = () => {
                 key={blog.id}
                 blog={blog}
                 user={user}
-                // updateLikes={handleLikes}
-                // deleteBlog={handleDeleteBlog}
               />
             )}
           </div>
