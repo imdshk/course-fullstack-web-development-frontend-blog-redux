@@ -1,7 +1,8 @@
-import { useParams, Navigate, Link } from "react-router-dom"
+import { useState } from "react"
+import { useParams } from "react-router-dom"
 import  { useSelector, useDispatch } from "react-redux"
 
-import { deleteBlog, updateLikes } from "../reducers/blogReducer"
+import { deleteBlog, updateLikes, createComment } from "../reducers/blogReducer"
 
 const Blog = () => {
   const id = useParams().id
@@ -10,6 +11,12 @@ const Blog = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
   const blog = blogs.find(blog => blog.id === id)
+
+  const [comment, setComment] = useState("")
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value)
+  }
 
   const removeButtonStyle = {
     backgroundColor: "#f44336",
@@ -37,6 +44,15 @@ const Blog = () => {
     }
   }
 
+  const handleAddComment = (event) => {
+    event.preventDefault()
+    dispatch(createComment({
+      id: blog.id,
+      comment: comment
+    }))
+    setComment("")
+  }
+
   return (
     <>
       <h1>{blog.title} by {blog.author}</h1>
@@ -53,6 +69,27 @@ const Blog = () => {
           <></>
         }
       </p>
+      <h2>comments</h2>
+      <form onSubmit={handleAddComment}>
+        <input
+          value={comment}
+          onChange={handleCommentChange}
+          type="text"
+          id="blog-input-comment"
+        />
+        <button type="submit" id="comment-button">
+          add comment
+        </button>
+      </form>
+      <br />
+      {blog.comments.length !== 0 ?
+        <ul>
+          {blog.comments.map(comment =>
+            <li key={comment.id}>{comment.comment}</li>
+          )}
+        </ul> :
+        <>no comments</>
+      }
     </>
   )
 }

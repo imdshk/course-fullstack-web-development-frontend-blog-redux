@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, current } from "@reduxjs/toolkit"
 
 import blogService from "../services/blogs"
 
@@ -21,8 +21,17 @@ const blogSlice = createSlice({
       )
     },
     addLike(state, action) {
-      const blogToUpdate = state.find((blog) => blog.id === action.payload.id)
+      const blogToUpdate = state.find(blog => blog.id === action.payload.id)
       const updatedBlog = { ...blogToUpdate, likes: action.payload.likes }
+      return state.map(blog =>
+        blog.id !== updatedBlog.id ? blog : updatedBlog
+      )
+    },
+    addComment(state, action) {
+      const blogToUpdate = state.find(blog => blog.id === action.payload.id)
+      const currentComments = current(blogToUpdate.comments)
+      const updatedCommentList = currentComments.concat(action.payload)
+      const updatedBlog = { ...blogToUpdate, comments: updatedCommentList }
       return state.map(blog =>
         blog.id !== updatedBlog.id ? blog : updatedBlog
       )
@@ -30,7 +39,7 @@ const blogSlice = createSlice({
   }
 })
 
-export const { setBlogs, addBlog, removeBlog, addLike } = blogSlice.actions
+export const { setBlogs, addBlog, removeBlog, addLike, addComment } = blogSlice.actions
 
 export const initializeBlogs = () => {
   return async dispatch => {
@@ -87,6 +96,20 @@ export const updateLikes = (blog) => {
     } catch (error) {
       dispatch(setNotification(
         `Error ${error.response.status}: ${error.response.data.error}`,
+        "bad"
+      ))
+    }
+  }
+}
+
+export const createComment = (blog) => {
+  return async dispatch => {
+    try {
+      const response = await blogService.createComment({ id: blog.id, comment: blog.comment })
+      dispatch(addComment({ id: blog.id, comment: JSON.parse(response.config.data).comment }))
+    } catch (error) {
+      dispatch(setNotification(
+        `Error ${error}`,
         "bad"
       ))
     }
