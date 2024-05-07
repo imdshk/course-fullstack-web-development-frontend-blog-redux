@@ -12,6 +12,7 @@ import LoginForm from "./components/LoginForm"
 import Home from "./components/Home"
 import Userstatus from "./components/Userstatus"
 import Users from "./components/Users"
+import User from "./components/User"
 
 import { initializeUser } from "./reducers/userReducer"
 import { initializeBlogs } from "./reducers/blogReducer"
@@ -36,12 +37,17 @@ const App = () => {
 
   return (
     <Router>
-      <div>
+      <>
         <Notification />
         <h1>blogs</h1>
         <Userstatus />
         <br />
         <Routes>
+          <Route path="/users/:id" element={
+            user === null ?
+              <Navigate replace to="/login" /> :
+              <User />
+          } />
           <Route path="/users" element={
             user === null ?
               <Navigate replace to="/login" /> :
@@ -58,7 +64,7 @@ const App = () => {
               <Navigate replace to="/" />
           }/>
         </Routes>
-      </div>
+      </>
     </Router>
   )
 }
