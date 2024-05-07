@@ -37,44 +37,46 @@ const App = () => {
   const user = useSelector(state => state.user)
 
   return (
-    <Router>
-      <>
-        {
-          user === null ?
-            <Navigate replace to="/login" /> :
-            <Navigation />
-        }
-        <Notification />
-        <h1>blogs</h1>
-        <Routes>
-          <Route path="/blogs/:id" element={
+    <div className="container">
+      <Router>
+        <>
+          {
             user === null ?
               <Navigate replace to="/login" /> :
-              <Blog />
-          } />
-          <Route path="/users/:id" element={
-            user === null ?
-              <Navigate replace to="/login" /> :
-              <User />
-          } />
-          <Route path="/users" element={
-            user === null ?
-              <Navigate replace to="/login" /> :
-              <Users />
-          } />
-          <Route path="/" element={
-            user === null ?
-              <Navigate replace to="/login" /> :
-              <Home />
-          } />
-          <Route path="/login" element={
-            user === null ?
-              <LoginForm /> :
-              <Navigate replace to="/" />
-          }/>
-        </Routes>
-      </>
-    </Router>
+              <Navigation user />
+          }
+          <Notification />
+          <h1>blogs</h1>
+          <Routes>
+            <Route path="/blogs/:id" element={
+              user === null ?
+                <Navigate replace to="/login" /> :
+                <Blog />
+            } />
+            <Route path="/users/:id" element={
+              user === null ?
+                <Navigate replace to="/login" /> :
+                <User />
+            } />
+            <Route path="/users" element={
+              user === null ?
+                <Navigate replace to="/login" /> :
+                <Users />
+            } />
+            <Route path="/" element={
+              user === null ?
+                <Navigate replace to="/login" /> :
+                <Home />
+            } />
+            <Route path="/login" element={
+              user === null ?
+                <LoginForm /> :
+                <Navigate replace to="/" />
+            }/>
+          </Routes>
+        </>
+      </Router>
+    </div>
   )
 }
 
