@@ -1,25 +1,23 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom"
 
 import Notification from "./components/Notification"
 import LoginForm from "./components/LoginForm"
+import Home from "./components/Home"
 import Userstatus from "./components/Userstatus"
-import BlogForm from "./components/BlogForm"
-import Blog from "./components/Blog"
-import Toggalable from "./components/Toggalable"
+import Users from "./components/Users"
 
-import { initializeBlogs } from "./reducers/blogReducer"
 import { initializeUser } from "./reducers/userReducer"
+import { initializeBlogs } from "./reducers/blogReducer"
 
 const App = () => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [])
-
-  const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
 
   useEffect(() => {
     const fetchUserData = () => {
@@ -30,31 +28,38 @@ const App = () => {
     fetchUserData()
   }, [])
 
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [])
+
+  const user = useSelector(state => state.user)
+
   return (
-    <div>
-      <Notification />
-      {user === null ?
-        <LoginForm /> :
-        <div>
-          <h2>blogs</h2>
-          <Userstatus />
-          <br />
-          <Toggalable buttonLabel="create blog">
-            <BlogForm />
-          </Toggalable>
-          <br />
-          <div className="blogs" >
-            {blogs.map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-              />
-            )}
-          </div>
-        </div>
-      }
-    </div>
+    <Router>
+      <div>
+        <Notification />
+        <h1>blogs</h1>
+        <Userstatus />
+        <br />
+        <Routes>
+          <Route path="/users" element={
+            user === null ?
+              <Navigate replace to="/login" /> :
+              <Users />
+          } />
+          <Route path="/" element={
+            user === null ?
+              <Navigate replace to="/login" /> :
+              <Home />
+          } />
+          <Route path="/login" element={
+            user === null ?
+              <LoginForm /> :
+              <Navigate replace to="/" />
+          }/>
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

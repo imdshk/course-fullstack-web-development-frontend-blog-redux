@@ -1,8 +1,6 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import propTypes from "prop-types"
-
 import { loginUser } from "../reducers/userReducer"
 import { setNotification } from "../reducers/notificationReducer"
 
@@ -59,14 +57,6 @@ const LoginForm = () => {
       </button>
     </form>
   )
-}
-
-LoginForm.propTypes = {
-  handleLogin: propTypes.func.isRequired,
-  username: propTypes.string.isRequired,
-  password: propTypes.string.isRequired,
-  handleUsernameChange: propTypes.func.isRequired,
-  handlePasswordChange: propTypes.func.isRequired
 }
 
 export default LoginForm
