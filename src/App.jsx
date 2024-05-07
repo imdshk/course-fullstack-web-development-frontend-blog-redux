@@ -10,10 +10,10 @@ import {
 import Notification from "./components/Notification"
 import LoginForm from "./components/LoginForm"
 import Home from "./components/Home"
-import Userstatus from "./components/Userstatus"
 import Users from "./components/Users"
 import User from "./components/User"
 import Blog from "./components/Blog"
+import Navigation from "./components/Navigation"
 
 import { initializeUser } from "./reducers/userReducer"
 import { initializeBlogs } from "./reducers/blogReducer"
@@ -39,13 +39,13 @@ const App = () => {
   return (
     <Router>
       <>
-        <Notification />
-        <h1>blogs</h1>
         {
           user === null ?
             <Navigate replace to="/login" /> :
-            <Userstatus />
+            <Navigation />
         }
+        <Notification />
+        <h1>blogs</h1>
         <Routes>
           <Route path="/blogs/:id" element={
             user === null ?
