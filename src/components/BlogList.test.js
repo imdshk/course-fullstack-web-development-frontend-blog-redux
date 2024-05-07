@@ -2,7 +2,7 @@ import React from "react"
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import Blog from "./Blog"
+import BlogList from "./BlogList"
 import BlogForm from "./BlogForm"
 
 const blogData = {
@@ -21,7 +21,7 @@ const userData = {
 
 test("render content", async () => {
   render(
-    <Blog
+    <BlogList
       blog={ blogData }
       user={ userData }
     />
@@ -35,7 +35,7 @@ test("click view button to show details", async () => {
   const mockHandler = jest.fn()
 
   const { container } = render(
-    <Blog
+    <BlogList
       blog={ blogData }
       user={ userData }
     />)
@@ -53,7 +53,7 @@ test("click like button twice", async () => {
   const mockHandler = jest.fn()
 
   const { container } = render(
-    <Blog
+    <BlogList
       blog={ blogData }
       user={ userData }
       updateLikes={ mockHandler }

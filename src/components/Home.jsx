@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 
 import BlogForm from "../components/BlogForm"
-import Blog from "../components/Blog"
+import BlogList from "./BlogList"
 import Toggalable from "../components/Toggalable"
 
 const Home = () => {
@@ -16,10 +16,9 @@ const Home = () => {
       <br />
       <div className="blogs" >
         {blogs.map(blog =>
-          <Blog
+          <BlogList
             key={blog.id}
             blog={blog}
-            user={user}
           />
         )}
       </div>

@@ -15,6 +15,8 @@ const Userstatus = () => {
   return(
     <div>
       {user.name} logged in
+      <br />
+      <br />
       <button onClick={handleLogout} id="logout-button">
           logout
       </button>

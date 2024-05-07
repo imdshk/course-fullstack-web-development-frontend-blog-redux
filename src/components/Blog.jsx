@@ -1,36 +1,22 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useParams, Navigate, Link } from "react-router-dom"
+import  { useSelector, useDispatch } from "react-redux"
 
 import { deleteBlog, updateLikes } from "../reducers/blogReducer"
 
-const Blog = ({ blog, user }) => {
+const Blog = () => {
+  const id = useParams().id
   const dispatch = useDispatch()
 
-  const [detailsVisibile, setDetailsVisible] = useState(false)
-
-  const blogStyle = {
-    color: "black",
-    background: "lightgray",
-    fontSize: 20,
-    padding: 10,
-    borderStyle: "solid",
-    borderRadius: 5,
-    BorderColor: "black",
-    marginBottom: 10
-  }
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
+  const blog = blogs.find(blog => blog.id === id)
 
   const removeButtonStyle = {
     backgroundColor: "#f44336",
     color: "white"
   }
 
-  const showDetails = { display: detailsVisibile ? "" : "none" }
-
-  const toggleDetailsVisibility = () => {
-    setDetailsVisible(!detailsVisibile)
-  }
-
-  const showDeleteButton = { display: user.name === blog.user.name ? "" : "none" }
+  const showDeleteButton = { display: user.username === blog.user.username ? "" : "none" }
 
   const addLikes = (event) => {
     event.preventDefault()
@@ -51,22 +37,23 @@ const Blog = ({ blog, user }) => {
     }
   }
 
-  return(
-    <div style={blogStyle} className="blog" >
-      {blog.title} by {blog.author}
-      <button onClick={toggleDetailsVisibility} id="blog-button-toggleDetails">{detailsVisibile ? "hide" : "view"}</button>
-      <div style={showDetails} className="blog-details">
-        <a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a>
-        <br/>
-        likes {blog.likes}
+  return (
+    <>
+      <h1>{blog.title} by {blog.author}</h1>
+      <p>
+        <a href={blog.url}>{blog.url}</a>
+        <br />
+        {blog.likes} likes
         <button onClick={addLikes} id="blog-button-like">like</button>
-        <br/>
-        {blog.user.name}
-        <div style={showDeleteButton} id="blog-delete">
-          <button onClick={removeBlog} style={removeButtonStyle}  id="blog-button-delete">delete</button>
-        </div>
-      </div>
-    </div>
+        <br />
+        added by {blog.user.name}
+        <br />
+        {showDeleteButton.display === "" ?
+          <button onClick={removeBlog} style={removeButtonStyle}  id="blog-button-delete">delete</button> :
+          <></>
+        }
+      </p>
+    </>
   )
 }
 
